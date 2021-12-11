@@ -1,13 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
 import router from "./routes/routes.js";
-import mongoose from "mongoose";
-import connectDB from "./config/db.js";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 
+app.use(cors({
+  origin:process.env.URL_ORIGIN
+}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
