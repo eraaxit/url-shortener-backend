@@ -22,25 +22,25 @@ router.post("/api/", async (req, res) => {
       shortURL = generateShort();
       url = await URL.findOne({ shortURL: shortURL });
     }
-
     const newUrl = new URL({ longURL: req.body.longURL, shortURL: shortURL });
     const shortened = await newUrl.save();
 
-    res.send(shortened);
+    res.status(200).json(shortened);
+
   } catch (err) {
     console.error(err.message);
     return res.status(500).send("Server Error");
   }
 });
 
-router.get("/api/:shortURL", async (req, res) => {
+router.get("/api/:shorturl", async (req, res) => {
   if (mongoose.connection.readyState === 0) {
     await connectDB();
   }
   try {
-    let result = await URL.findOne({ shortURL: req.params.shortURL });
+    let result = await URL.findOne({ shortURL: req.params.shorturl });
     if (!result) {
-      res.send("No user Found");
+      res.send("No URL Found");
     }
     res.send(result);
   } catch (err) {
